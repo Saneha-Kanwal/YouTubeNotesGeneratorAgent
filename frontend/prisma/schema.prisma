@@ -1,0 +1,37 @@
+// Prisma schema for type safety only
+// All database operations use raw SQL queries via Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Video {
+  id              String   @id @default(uuid()) @db.Uuid
+  youtubeUrl      String   @unique @map("youtube_url") @db.Text
+  title           String?  @db.Text
+  transcript      String?  @db.Text
+  originalNotes   String?  @map("original_notes") @db.Text
+  durationSeconds Int?     @map("duration_seconds") @db.Integer
+  thumbnailUrl    String?  @map("thumbnail_url") @db.Text
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  translations    Translation[]
+
+  @@map("videos")
+}
+
+model Translation {
+  id             String   @id @default(uuid()) @db.Uuid
+  videoId        String   @map("video_id") @db.Uuid
+  targetLang     String   @map("target_lang") @db.Text
+  translatedNotes String @map("translated_notes") @db.Text
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  video          Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([videoId, targetLang])
+  @@map("translations")
+}
+

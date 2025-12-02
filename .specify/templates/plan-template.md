@@ -31,7 +31,19 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with `.specify/memory/constitution.md`:
+
+- [ ] **Frontend**: Uses Next.js 15 (App Router) + Bootstrap only
+- [ ] **Backend**: Uses FastAPI (Python) for heavy tasks, Uvicorn for server
+- [ ] **Database**: Uses PostgreSQL with Prisma (frontend) and SQLAlchemy (backend)
+- [ ] **YouTube Download**: Uses yt-dlp (or youtube-dl) for audio extraction
+- [ ] **OpenAI Integration**: Uses OpenAI Agent SDK syntax only (no chat completion, no swarm syntax)
+- [ ] **External APIs**: No other paid APIs beyond OpenAI
+- [ ] **Note Structure**: Follows required format (main heading, subheadings, bullet points, key insights, quotes, summary, takeaways)
+- [ ] **Translation**: Supports 50+ languages if feature involves note display
+- [ ] **History**: Persistent storage in PostgreSQL if feature involves data storage
+
+**Violations**: Document any necessary deviations in Complexity Tracking section below.
 
 ## Project Structure
 

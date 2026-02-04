@@ -15,7 +15,7 @@ export default function NotesViewer({ notes, className = '' }: NotesViewerProps)
         remarkPlugins={[remarkGfm]}
         components={{
           // Custom code block rendering with syntax highlighting
-          code: ({ node, inline, className, children, ...props }: any) => {
+          code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string; children: React.ReactNode }) => {
             const match = /language-(\w+)/.exec(className || '');
             return !inline && match ? (
               <pre className="bg-light p-3 rounded border">
@@ -30,29 +30,29 @@ export default function NotesViewer({ notes, className = '' }: NotesViewerProps)
             );
           },
           // Custom heading styles
-          h1: ({ children }: any) => (
+          h1: ({ children }: { children: React.ReactNode }) => (
             <h1 className="mt-4 mb-3 border-bottom pb-2">{children}</h1>
           ),
-          h2: ({ children }: any) => (
+          h2: ({ children }: { children: React.ReactNode }) => (
             <h2 className="mt-4 mb-3">{children}</h2>
           ),
-          h3: ({ children }: any) => (
+          h3: ({ children }: { children: React.ReactNode }) => (
             <h3 className="mt-3 mb-2">{children}</h3>
           ),
           // Custom blockquote for quotes
-          blockquote: ({ children }: any) => (
+          blockquote: ({ children }: { children: React.ReactNode }) => (
             <blockquote className="blockquote border-start border-primary border-3 ps-3 my-3">
               {children}
             </blockquote>
           ),
           // Custom list styling
-          ul: ({ children }: any) => (
+          ul: ({ children }: { children: React.ReactNode }) => (
             <ul className="list-group list-group-flush mb-3">{children}</ul>
           ),
-          ol: ({ children }: any) => (
+          ol: ({ children }: { children: React.ReactNode }) => (
             <ol className="mb-3">{children}</ol>
           ),
-          li: ({ children }: any) => (
+          li: ({ children }: { children: React.ReactNode }) => (
             <li className="mb-2">{children}</li>
           ),
         }}

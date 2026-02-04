@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import LanguageDropdown from '@/components/LanguageDropdown';
 import NotesViewer from '@/components/NotesViewer';
 
@@ -30,11 +29,7 @@ export default function NotesPage() {
   const [displayNotes, setDisplayNotes] = useState<string | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState('en');
 
-  useEffect(() => {
-    fetchVideo();
-  }, [videoId]);
-
-  const fetchVideo = async () => {
+  const fetchVideo = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE}/videos/${videoId}`);
       if (!response.ok) {
@@ -51,7 +46,11 @@ export default function NotesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_BASE, videoId]);
+
+  useEffect(() => {
+    fetchVideo();
+  }, [fetchVideo]);
 
   const handleTranslationChange = (translatedNotes: string, language: string) => {
     setDisplayNotes(translatedNotes);
@@ -76,9 +75,9 @@ export default function NotesPage() {
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
-        <a href="/" className="btn btn-primary">
+        <Link href="/" className="btn btn-primary">
           Back to Home
-        </a>
+        </Link>
       </div>
     );
   }
@@ -105,12 +104,12 @@ export default function NotesPage() {
           <nav aria-label="breadcrumb" className="mb-4">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="/" className="text-decoration-none">
+                <Link href="/" className="text-decoration-none">
                   <i className="bi bi-house-door me-1"></i>Home
-                </a>
+                </Link>
               </li>
               <li className="breadcrumb-item">
-                <a href="/history" className="text-decoration-none">History</a>
+                <Link href="/history" className="text-decoration-none">History</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Notes

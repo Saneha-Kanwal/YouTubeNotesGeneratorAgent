@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  turbopack: {
+    root: path.resolve(__dirname)
+  }
 };
 
 module.exports = nextConfig;

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 interface VideoSummary {
@@ -31,11 +32,7 @@ export default function HistoryPage() {
   const [limit] = useState(20);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchVideos();
-  }, [page]);
-
-  const fetchVideos = async () => {
+  const fetchVideos = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -51,7 +48,11 @@ export default function HistoryPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_BASE, page, limit]);
+
+  useEffect(() => {
+    fetchVideos();
+  }, [fetchVideos]);
 
   const handleDelete = async (videoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -109,9 +110,9 @@ export default function HistoryPage() {
       <nav aria-label="breadcrumb" className="mb-4">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <a href="/" className="text-decoration-none">
+            <Link href="/" className="text-decoration-none">
               <i className="bi bi-house-door me-1"></i>Home
-            </a>
+            </Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             History
@@ -124,9 +125,9 @@ export default function HistoryPage() {
           <i className="bi bi-clock-history me-2 text-primary"></i>
           Processing History
         </h1>
-        <a href="/" className="btn btn-primary">
+        <Link href="/" className="btn btn-primary">
           <i className="bi bi-plus-circle me-2"></i>New Video
-        </a>
+        </Link>
       </div>
 
       {error && (
@@ -142,9 +143,9 @@ export default function HistoryPage() {
             <i className="bi bi-inbox display-1 text-muted mb-3"></i>
             <h3 className="text-muted">No videos processed yet</h3>
             <p className="text-muted mb-4">Start by processing your first YouTube video</p>
-            <a href="/" className="btn btn-primary btn-lg">
+            <Link href="/" className="btn btn-primary btn-lg">
               <i className="bi bi-play-circle me-2"></i>Process Your First Video
-            </a>
+            </Link>
           </div>
         </div>
       ) : (

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   const [youtubeUrl, setYoutubeUrl] = useState('');
-  const [videoId, setVideoId] = useState<string | null>(null);
+
   const [status, setStatus] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +35,6 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setVideoId(data.video_id);
       setStatus('Processing started. Checking status...');
       setProgressPercent(10);
 
@@ -51,7 +51,6 @@ export default function Home() {
   const pollStatus = async (id: string) => {
     const maxAttempts = 600; // 50 minutes max (5 second intervals)
     let attempts = 0;
-    let lastStatus = '';
     let progressTracker = 10; // Start at 10% after submission
 
     const checkStatus = async () => {
@@ -368,7 +367,7 @@ export default function Home() {
           </div>
 
           <div className="mt-5 text-center">
-            <a href="/history" className="btn btn-outline-primary btn-lg px-5 py-3" style={{
+            <Link href="/history" className="btn btn-outline-primary btn-lg px-5 py-3" style={{
               borderWidth: '2px',
               fontWeight: '600',
               borderRadius: '1rem',
@@ -376,7 +375,7 @@ export default function Home() {
             }}>
               <i className="bi bi-clock-history me-2"></i>
               View Processing History
-            </a>
+            </Link>
           </div>
         </div>
       </div>

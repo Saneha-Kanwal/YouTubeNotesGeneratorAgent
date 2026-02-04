@@ -15,45 +15,46 @@ export default function NotesViewer({ notes, className = '' }: NotesViewerProps)
         remarkPlugins={[remarkGfm]}
         components={{
           // Custom code block rendering with syntax highlighting
-          code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string; children: React.ReactNode }) => {
+          code: (props: any) => {
+            const { inline, className, children, ...rest } = props;
             const match = /language-(\w+)/.exec(className || '');
             return !inline && match ? (
               <pre className="bg-light p-3 rounded border">
-                <code className={className} {...props}>
+                <code className={className} {...rest}>
                   {children}
                 </code>
               </pre>
             ) : (
-              <code className="bg-light px-2 py-1 rounded" {...props}>
+              <code className="bg-light px-2 py-1 rounded" {...rest}>
                 {children}
               </code>
             );
           },
           // Custom heading styles
-          h1: ({ children }: { children: React.ReactNode }) => (
-            <h1 className="mt-4 mb-3 border-bottom pb-2">{children}</h1>
+          h1: (props: any) => (
+            <h1 className="mt-4 mb-3 border-bottom pb-2">{props.children}</h1>
           ),
-          h2: ({ children }: { children: React.ReactNode }) => (
-            <h2 className="mt-4 mb-3">{children}</h2>
+          h2: (props: any) => (
+            <h2 className="mt-4 mb-3">{props.children}</h2>
           ),
-          h3: ({ children }: { children: React.ReactNode }) => (
-            <h3 className="mt-3 mb-2">{children}</h3>
+          h3: (props: any) => (
+            <h3 className="mt-3 mb-2">{props.children}</h3>
           ),
           // Custom blockquote for quotes
-          blockquote: ({ children }: { children: React.ReactNode }) => (
+          blockquote: (props: any) => (
             <blockquote className="blockquote border-start border-primary border-3 ps-3 my-3">
-              {children}
+              {props.children}
             </blockquote>
           ),
           // Custom list styling
-          ul: ({ children }: { children: React.ReactNode }) => (
-            <ul className="list-group list-group-flush mb-3">{children}</ul>
+          ul: (props: any) => (
+            <ul className="list-group list-group-flush mb-3">{props.children}</ul>
           ),
-          ol: ({ children }: { children: React.ReactNode }) => (
-            <ol className="mb-3">{children}</ol>
+          ol: (props: any) => (
+            <ol className="mb-3">{props.children}</ol>
           ),
-          li: ({ children }: { children: React.ReactNode }) => (
-            <li className="mb-2">{children}</li>
+          li: (props: any) => (
+            <li className="mb-2">{props.children}</li>
           ),
         }}
       >
